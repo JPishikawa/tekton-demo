@@ -1,0 +1,30 @@
+apiVersion: tekton.dev/v1beta1
+kind: TaskRun
+metadata:
+  name: git-clone-task-run
+  namespace: demo-cicd
+spec:
+  params:
+    - name: url
+      value: >-
+        https://github.com/JPishikawa/mkdocs_test.git
+    - name: revision
+      value: master
+    - name: depth
+      value: '0'
+    - name: deleteExisting
+      value: 'true'
+  taskRef:
+    kind: ClusterTask
+    name: git-clone
+  serviceAccountName: pipeline
+  workspaces:
+    - name: output
+      workspace: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi

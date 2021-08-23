@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: test-run-
+spec:
+  pipelineRef:
+    name: test-pipeline
+  params:
+    - name: url
+      value: 'https://github.com/JPishikawa/mkdocs_test'
+    - name: SONAR_HOST_URL
+      value: 'http://sonarqube:9000'
+    - name: SONAR_PROJECT_KEY
+      value: 'test-project'
+    - name: IMAGE
+      value: 'jpishikawa/mkdocs-test'
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    - name: sonar-settings
+      emptyDir: {}

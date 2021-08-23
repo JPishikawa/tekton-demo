@@ -1,0 +1,22 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: EventListener
+metadata:
+  name: test-event-listener
+spec:
+  serviceAccountName: sample-sa  # EventListener Podが利用するService Account
+  triggers:
+    - bindings:
+        - ref: test-trigger-binding
+      template:
+        ref: test-pipeline-template
+      interceptors:
+        - github:
+            # 認証に利用するキー。KubernetesのSecretsを参照する
+            secretRef:
+              secretName: github-webhook
+              secretKey: secretkey
+            # 許可するイベント
+            eventTypes:
+              - push
+        - cel:
+            filter: "body.ref == \"refs/heads/master\""

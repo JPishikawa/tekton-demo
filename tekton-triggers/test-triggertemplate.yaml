@@ -1,0 +1,39 @@
+apiVersion: triggers.tekton.dev/v1alpha1
+kind: TriggerTemplate
+metadata:
+  name: test-pipeline-template
+spec:
+  params:
+    - name: gitrevision
+      description: The git revision
+      default: master
+    - name: gitrepositoryurl
+      description: The git repository url
+  resourcetemplates:
+    - apiVersion: tekton.dev/v1beta1
+      kind: PipelineRun
+      metadata:
+        generateName: test-run-
+      spec:
+        pipelineRef:
+          name: test-pipeline
+        params:
+          - name: url
+            value: $(tt.params.gitrepositoryurl)
+          - name: SONAR_HOST_URL
+            value: 'http://sonarqube:9000'
+          - name: SONAR_PROJECT_KEY
+            value: 'test-project'
+          - name: IMAGE
+            value: jpishikawa/mkdocs-test:$(tt.params.gitrevision)
+        workspaces:
+          - name: shared-workspace
+            volumeClaimTemplate:
+              spec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
+          - name: sonar-settings
+            emptyDir: {}
