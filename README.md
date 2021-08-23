@@ -8,12 +8,16 @@
 
 ## リポジトリの取得
 本デモでは以下2種類のリポジトリを使用する。
+
 **tekton-demo**: 使用するtektonのCRを含むリポジトリ
+
 https://github.com/JPishikawa/tekton-demo
 
-**mkdocs-test**: pipelineの実行契機となるリポジトリ※
+**mkdocs-test**: pipelineの実行契機となるリポジトリ 
+
 https://github.com/JPishikawa/mkdocs_test
-※中身は何でも良いため上記以外のリポジトリでも問題なし
+
+※中身は何でも良いため上記のリポジトリでなくても問題なし
 
 ### tekton-demoリポジトリのクローン
 作成したクラスタに対し、ocコマンドが実行可能な環境で行うことを推奨。
@@ -22,11 +26,12 @@ git clone https://github.com/JPishikawa/tekton-demo.git
 ```
 
 ### mkdocs-testリポジトリのフォーク
-pushやmergeを行うため、デモ専用のリポジトリを作成しておく。
-自身のGitHubアカウントにログインしておき、以下にアクセス。
-https://github.com/JPishikawa/mkdocs_test
-画面右上のForkを押下。
-Fork後に以下のように自身のアカウント配下にmkdocs-testリポジトリがあることを確認。
+pushやmergeを行うため、デモ専用のリポジトリを作成しておく。  
+自身のGitHubアカウントにログインしておき、以下にアクセス。  
+https://github.com/JPishikawa/mkdocs_test  
+  
+画面右上のForkを押下。  
+Fork後に以下のように自身のアカウント配下にmkdocs-testリポジトリがあることを確認。  
 /[個人のアカウント名]/mkdocs-test
  
 ## DockerHubで新規リポジトリを作成
@@ -75,7 +80,7 @@ oc secrets link pipeline dockerhub-cred
 oc create secret generic github-webhook --from-literal=secretkey=tekton-demo
 ```
 
-### tkn CLIのインストール（本デモではオプション）
+### tkn CLIのインストール（本デモでは使用しなくても問題無いためオプション）
 Linuxの場合は以下。その他は[こちら](https://github.com/tektoncd/cli)を参照
 ```
 # Get the tar.xz
@@ -162,4 +167,4 @@ developからmasterへのPullRequestを作成し、merge。
 適宜実行状況を確認し、完了したらDockerHubにてGitのcommitIDがタグとして付与されたイメージを確認する。
 
 ## Clean Up
-フォークしたGitリポジトリやDockerHubのリポジトリは適宜削除
+フォークしたGitリポジトリやDockerHubのリポジトリは適宜削除を行う
