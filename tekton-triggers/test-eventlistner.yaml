@@ -3,7 +3,7 @@ kind: EventListener
 metadata:
   name: test-event-listener
 spec:
-  serviceAccountName: sample-sa  # EventListener Podが利用するService Account
+  serviceAccountName: sample-sa 
   triggers:
     - bindings:
         - ref: test-trigger-binding
@@ -11,11 +11,9 @@ spec:
         ref: test-pipeline-template
       interceptors:
         - github:
-            # 認証に利用するキー。KubernetesのSecretsを参照する
             secretRef:
               secretName: github-webhook
               secretKey: secretkey
-            # 許可するイベント
             eventTypes:
               - push
         - cel:
