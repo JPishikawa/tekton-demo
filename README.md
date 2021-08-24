@@ -124,7 +124,7 @@ oc apply -f test-pipeline.yaml
 oc create -f test-pipelinerun.yaml
 
 # 実行状況の確認
-oc get taskrun
+oc get pipelinerun
 ```
 適宜OpenShiftコンソールで実行状況を確認
 
